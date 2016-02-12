@@ -21,7 +21,7 @@ def scrape(url, module=None):
     '''
     Scrape a site, return the links
     '''
-    crawler = cauthon.Crawler()
+    crawler = cauthon.Crawler(node_type='minion')
     return crawler.scrape(url, module)
 
 
