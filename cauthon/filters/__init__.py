@@ -8,7 +8,6 @@ import urlparse
 import yaml
 import salt.syspaths
 import salt.utils
-import salt.config
 from salt.loader import LazyLoader
 import cauthon.config
 

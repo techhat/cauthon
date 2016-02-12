@@ -11,7 +11,7 @@ import cookielib
 import yaml
 import requests
 import bs4
-import salt.config
+import cauthon.config
 import salt.utils
 
 from cauthon.database import Database
@@ -24,7 +24,7 @@ class Crawler(object):
     '''
     Connection object for Cauthon
     '''
-    def __init__(self, conf_path=None, opts=None):
+    def __init__(self, node_type=None, conf_path=None, opts=None):
         '''
         Set up main class
         '''
@@ -33,9 +33,8 @@ class Crawler(object):
         if opts:
             self.opts = opts
         else:
-            self.opts = salt.config.load_config(
+            self.opts = cauthon.config.load_config(
                 '{0}/cauthon'.format(conf_path),
-                None,
             )
 
         header_dict = {}
