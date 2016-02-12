@@ -13,7 +13,7 @@ def __virtual__():
     return __virtualname__
 
 
-def connect(conn_str=None, **kwargs):
+def connect(conn_str=None, table='sites', schema=None, **kwargs):
     '''
     Connect to the database
     '''
@@ -21,23 +21,25 @@ def connect(conn_str=None, **kwargs):
         conn_str = '/var/cache/cauthon/cache.sqlite'
     conn = sqlite3.connect(conn_str, **kwargs)
     conn.text_factory = str
-    _init_db(conn)
+    _init_db(conn, table, schema)
     return conn
 
 
-def _init_db(conn):
+def _init_db(conn, table='sites', schema=None):
     '''
     Ensure that the database is initialized
     '''
     try:
-        conn.execute('SELECT COUNT(*) FROM sites')
+        conn.execute('SELECT COUNT(*) FROM {0}'.format(table))
     except OperationalError:
-        conn.execute('''CREATE TABLE sites (
-            url text,
-            content blob,
-            title text,
-            last text
-        )''')
+        if schema is None:
+            schema = '''CREATE TABLE sites (
+                url text,
+                content blob,
+                title text,
+                last text
+            )'''
+        conn.execute(schema)
 
 
 def insert(conn, table, *args):
