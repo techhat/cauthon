@@ -2,6 +2,7 @@
 '''
 Execution module for running Cauthon on Salt minions
 '''
+from __future__ import absolute_import
 
 try:
     import cauthon
@@ -9,12 +10,16 @@ try:
 except ImportError:
     HAS_CAUTHON = False
 
+__virtualname__ = 'cauthon'
+
 
 def __virtual__():
     '''
     Make sure Cauthon is able to load
     '''
-    return HAS_CAUTHON
+    if HAS_CAUTHON:
+        return __virtualname__
+    return False
 
 
 def scrape(url, module=None):
