@@ -13,6 +13,7 @@ import requests
 import bs4
 import cauthon.config
 import salt.utils
+import salt.config
 
 from cauthon.database import Database
 from cauthon.filters import Filters
@@ -36,6 +37,9 @@ class Crawler(object):
             self.opts = cauthon.config.load_config(
                 '{0}/cauthon'.format(conf_path),
             )
+        self.node_type = node_type
+        self.master_opts = salt.config.master_config('{0}/master'.format(conf_path))
+        self.minion_opts = salt.config.minion_config('{0}/minion'.format(conf_path))
 
         header_dict = {}
         header_dict['User-agent'] = self.opts.get('user-agent', DEFAULT_AGENT)
