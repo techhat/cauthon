@@ -20,7 +20,7 @@ TO DO
   which analyze pages to categorize and rank them cannot be constrained to use
   filters based on domain name.
 * Support other databases than sqlite.
-** Genesis should be added as a generic database driver.
+ * Genesis should be added as a generic database driver.
 
 Spoiler Alert
 -------------
