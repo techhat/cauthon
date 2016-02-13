@@ -145,7 +145,15 @@ class Crawler(object):
         '''
         print('Downloading {0}'.format(url))
         for link in self.filters.scrape(self, url):
-            stream = requests.get(link, stream=True)
+            if 'Referer' in self.session.headers:
+                del self.session.headers['Referer']
+            self.session.headers.update({'Referer': str(url)})
+            stream = requests.get(
+                link,
+                proxies=self.proxies,
+                headers=self.session.headers,
+                stream=True,
+            )
             urlparser = urlparse.urlparse(link)
             comps = urlparser.path.split('/')
             out_path = os.path.join(
@@ -171,3 +179,4 @@ class ReqHook(object):  # pylint: disable=too-few-public-methods
     '''
     def __init__(self, data):
         self.content = data
+        self.cookies = {}
